@@ -39,7 +39,6 @@ def create_data_loaders(train_transform,
                                                batch_sampler=batch_sampler,
                                                num_workers=config.workers,
                                                pin_memory=True)
-
     evaldir = os.path.join(datadir, config.eval_subdir)
     evalset = torchvision.datasets.ImageFolder(evaldir,eval_transform)
     eval_loader = torch.utils.data.DataLoader(evalset,
@@ -85,7 +84,16 @@ def create_lr_scheduler(optimizer, config):
 
 def main(config):
     with SummaryWriter(comment='_{}_{}'.format(config.arch,config.dataset)) as writer:
-        dataset_config = datasets.cifar10() if config.dataset=='cifar10' else datasets.cifar100()
+        # TODO - Add mean, std, image size and whether we used preprocesesd data here
+        # There's pre-procesed and normal datasets as well...
+        def get_dataset_parameters(config):
+            # Maybe do this in config instead...?
+            # This could take quite a long time...
+            return [0,0,0], [0,0,0], 227, False
+
+        mean, std, image_size, preprocessed = get_dataset_parameters(config)
+        dataset_config = datasets.rop() if config.dataset=='rop' else datasets.cifar10()
+
         num_classes = dataset_config.pop('num_classes')
         train_loader, eval_loader = create_data_loaders(**dataset_config, config=config)
 

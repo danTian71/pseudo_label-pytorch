@@ -7,6 +7,33 @@ from torch.utils.data.sampler import Sampler
 
 NO_LABEL = -1
 
+# TODO - Calculate the channel stats for ROP dataset
+def rop(mean, std, image_size, preprocessed):
+    channel_stats = dict(mean=mean,
+            std=std)
+    train_transform = transforms.Compose([
+        transforms.Resize((image_size, image_size)),
+        transforms.ToTensor(),
+        transforms.Normalize(**channel_stats)
+    ])
+    eval_transform = transforms.Compose([
+        transforms.Resize((image_size, image_size)),
+        transforms.ToTensor(),
+        transforms.Normalize(**channel_stats)
+    ])
+    if preprocessed:
+        datadir = './data-local/images/rop_preprocessed'
+    else:
+        datadir = './data-local/images/rop'
+
+    return {
+        'train_transform': train_transform,
+        'eval_transform': eval_transform,
+        'datadir': datadir,
+        'num_classes': 2 
+    }
+
+
 def cifar10():
     channel_stats = dict(mean=[0.4914, 0.4822, 0.4465],
                          std=[0.2470,  0.2435,  0.2616])

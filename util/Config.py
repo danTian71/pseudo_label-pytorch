@@ -20,7 +20,7 @@ def create_parser():
 
     # Data
     parser.add_argument('--dataset', metavar='DATASET', default='imagenet',
-                        choices=['cifar10'])
+            choices=['cifar10', 'rop'])
     parser.add_argument('-b', '--batch-size', default=256, type=int,
                         metavar='N', help='mini-batch size (default: 256)')
     parser.add_argument('--labeled-batch-size', default=128, type=int,
