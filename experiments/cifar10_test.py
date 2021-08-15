@@ -68,7 +68,7 @@ def run(base_batch_size, base_labeled_batch_size, base_lr, n_labels, data_seed, 
         'batch_size': base_batch_size * ngpu,
         'labeled_batch_size': base_labeled_batch_size * ngpu,
         'lr': base_lr,
-        'labels': 'data-local/labels/cifar10/{}_balanced_labels/{:02d}.txt'.format(n_labels, data_seed),
+        'labels': 'data-local/labels/cifar_10/{}_balanced_labels/{:02d}.txt'.format(n_labels, data_seed),
         'is_parallel': is_parallel,
     }
     args = parse_dict_args(**adapted_args, **kwargs)
